@@ -1,10 +1,7 @@
 import os
 import redis, time
 
-from app import create_app
-
-config_name = os.getenv('APP_SETTINGS', 'development') # config_name = "development"
-app = create_app(config_name)
+from wsgi import app
 
 cache = redis.Redis(host='redis', port=6379)
 

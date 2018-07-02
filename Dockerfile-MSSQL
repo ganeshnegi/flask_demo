@@ -1,0 +1,5 @@
+FROM microsoft/mssql-server-linux
+
+ENV ACCEPT_EULA=Y
+
+ENV MSSQL_SA_PASSWORD=complex123#pass
