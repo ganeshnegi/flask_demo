@@ -16,7 +16,7 @@ RUN /bin/bash -c "source ~/.bashrc"
 RUN mkdir -p /appl/flask_demo/logs
 
 COPY . /appl/flask_demo/
-RUN /bin/bash -c "source /appl/flask_demo/env_vars.sh"
+#RUN /bin/bash -c "source /appl/flask_demo/env_vars.sh.template"
 
 WORKDIR /appl/flask_demo/project
 RUN pip3 install -r requirements.txt

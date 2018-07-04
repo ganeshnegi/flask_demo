@@ -8,6 +8,16 @@ services:
     ports:
       - '6379:6379'
 
+  mssql:
+    build:
+      context: .
+      dockerfile: Dockerfile-MSSQL
+    restart: always
+    ports:
+      - '1433:1433'
+    env_file:
+      - .env
+
   web:
     build: .
     ports:
@@ -16,3 +26,4 @@ services:
     #   - .:/appl/flask_demo
     links:
       - redis
+      - mssql
