@@ -8,3 +8,8 @@ from instance import config as conf
 
 bind = '{}:{}'.format(conf.HOST, conf.PORT)
 workers = (multiprocessing.cpu_count() * 2) + 1
+
+accesslog = '/var/log/gunicorn/access.log'
+errorlog = '/var/log/gunicorn/error.log'
+
+loglevel = 'debug'

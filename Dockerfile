@@ -1,22 +1,22 @@
-FROM python:3.6.5
+FROM python:3.6.6-slim-stretch
 
-# apt-get and system utilities
-RUN apt-get update && apt-get install -y apt-utils apt-transport-https debconf-utils gcc build-essential
+RUN apt-get update && \
+    apt-get install -y curl apt-transport-https &&\
+    curl http://packages.microsoft.com/config/debian/9/prod.list > \
+    /etc/apt/sources.list.d/mssql-release.list
 
-# adding custom MS repository
-RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
-RUN curl https://packages.microsoft.com/config/ubuntu/16.04/prod.list > /etc/apt/sources.list.d/mssql-release.list
+RUN apt-get update \
+    && apt-get install -y \
+        build-essential && \
+        apt-get install -y curl unixodbc-dev \
+        && ACCEPT_EULA=Y apt-get install -y --allow-unauthenticated msodbcsql17
 
-# install SQL Server drivers
-RUN apt-get update && ACCEPT_EULA=Y apt-get install -y msodbcsql17 unixodbc-dev mssql-tools
-
-RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
-RUN /bin/bash -c "source ~/.bashrc"
 
 RUN mkdir -p /appl/flask_demo/logs
+RUN mkdir -p /var/log/gunicorn
 
 COPY . /appl/flask_demo/
-#RUN /bin/bash -c "source /appl/flask_demo/env_vars.sh.template"
+#RUN /bin/bash -c "source /appl/flask_demo/env_vars.sh"
 
 WORKDIR /appl/flask_demo/project
 RUN pip3 install -r requirements.txt
